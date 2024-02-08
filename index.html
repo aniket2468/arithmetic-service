@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width", initial-scale="1.0">
+    <title>Arithmetic Operations</title>
+</head>
+<body>
+    <div style="background-color: rgb(203, 203, 203); width: 500px; height: 150px">
+    <h1>Arithmetic</h1>
+    <p>Enter two numbers to find their sum:</p>
+    <input type="number" id="operand1" placeholder="Enter first number">
+    <span> + </span>
+    <input type="number" id="operand2" placeholder="Enter second number">
+    <button onclick="add()"> = </button>
+    <span id="sum"></span>
+
+    <script>
+        async function add() {
+            const operand1Input = document.getElementById("operand1");
+            const operand2Input = document.getElementById("operand1");
+            let n = operand1Input.value;
+            let m = operand2Input.value;
+            const response = await fetch("http://localhost:3000/add/" + n + "/" + m);
+            const sum = await response.json();
+            document.getElementById("sum").innerText = sum;
+        }
+    </script>
+    </div>
+</body>
+</html>
