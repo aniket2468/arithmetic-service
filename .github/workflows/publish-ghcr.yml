@@ -17,3 +17,4 @@ jobs:
                 docker login --username aniket2468 --password ${{secrets.ACCESS_TOKEN}} ghcr.io
                 docker build -t ghcr.io/aniket2468/arithmetic-service:latest --file Dockerfile .  
                 docker push ghcr.io/aniket2468/arithmetic-service:latest 
+                
