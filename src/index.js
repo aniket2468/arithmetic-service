@@ -1,23 +1,19 @@
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
+const { add } = require("./arithmetica")
 const app = express();
-const port = 3000;
-
 app.use(cors());
-
+const port = 3000;
 app.get('/',(req,res) => {
-    res.send('Hello! This is the Arithmetic Service')
-})
+    res.send('Arithmetic service - last updated TYPE-THE-DATE-AND-TIME-HERE');
+});
 
-// app.get('/summation', (req, res) => {
-//     const num1 = Number(req.query.number1);
-//     const num2 = Number(req.query.number2);
-//     const summation = num1 + num2;
-//     res.send(`${summation}`);
-// });
-app.get('/add/:n/:m', (req, res) => {
-    res.json(Number(req.params.n) + Number(req.params.m))
-})
+app.get('/add/:n/:m', (req,res) => {
+    let n = Number(req.params.n);
+    let m = Number(req.params.m);
+    let sum = add(n, m);
+        res.json(sum);
+});
 
 app.listen(port, () => {
      console.log('Server is running on port 3000');
