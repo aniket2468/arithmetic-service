@@ -5,7 +5,7 @@ const app = express();
 app.use(cors());
 const port = 3000;
 app.get('/',(req,res) => {
-    res.send('Arithmetic service - last updated TYPE-THE-DATE-AND-TIME-HERE');
+    res.send('Arithmetic service - last updated TYPE-THE-DATE-AND-TIME-HERE (02/15/2023 - 4:16PM)');
 });
 
 app.get('/add/:n/:m', (req,res) => {
