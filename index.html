@@ -22,11 +22,41 @@
             const data = await response.json();
             document.getElementById("primeCheckResult").innerText = data.message;
         }
+        function encodeCaesarCipher() {
+            const textInput = document.getElementById("textToEncode");
+            let text = textInput.value;
+            let encodedText = caesarCipher(text, 3); // Shift of 3
+            document.getElementById("cipherResult").innerText = encodedText;
+        }
+        
+        function caesarCipher(str, shift) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            let result = '';
+            
+            for (let i = 0; i < str.length; i++) {
+                let char = str[i];
+                let isLetter = alphabet.includes(char);
+                if (isLetter) {
+                    let index = alphabet.indexOf(char);
+                    let encodedIndex = (index + shift) % 26;
+                    if (char === char.toUpperCase()) {
+                        result += alphabet[encodedIndex];
+                    } else {
+                        result += alphabet[encodedIndex + 26]; // For lowercase
+                    }
+                } else {
+                    result += char; // Leave non-alphabet characters as is
+                }
+            }
+            
+            return result;
+        }
+        
     </script>
     <style>
         .column {
             float: left;
-            width: 50%;
+            width: 33.33%;
             padding: 10px;
             box-sizing: border-box;
         }
@@ -58,5 +88,15 @@
                 <label id="primeCheckResult"></label>
             </section>
         </div>
+        <div class="column">
+            <section>
+                <h2>Caesar Cipher Encode</h2>
+                <label>Text to encode:</label>
+                <input id="textToEncode"/>
+                <button onclick="encodeCaesarCipher()">Encode</button>
+                <label id="cipherResult"></label>
+            </section>
+        </div>
+        
     </div>
 </body>
