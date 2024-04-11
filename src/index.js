@@ -1,10 +1,20 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
 
-const port = 3000;
 const publicDirectoryPath = path.join(__dirname, '../');
+
+if (!process.env.PORT) {
+  throw new Error('Please specify the port number for the HTTP server with the environment variable PORT.');
+  }
+  const port = process.env.PORT;
+  app.get('/', (req, res) => {
+  res.send('Arithmetic service - last updated 3/4/2022');
+  });
+  
+
 
 app.use(cors());
 
