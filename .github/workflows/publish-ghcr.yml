@@ -6,6 +6,11 @@ on:
 jobs:
     build_and_publish:
         runs-on: ubuntu-latest
+        env: 
+          VERSION: ${{ github.sha }}
+          CONTAINER REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+          CONTAINER REGISTRY_UN: ${{ secrets.CONTAINER_REGISTRY_UN }}
+          CONTAINER REGISTRY_PW: ${{ secrets.CONTAINER_REGISTRY_PW }}
         steps:
             - uses: actions/checkout@v3
             - name: npm install
@@ -15,10 +20,19 @@ jobs:
             - name: Publish the image to github container registry
               run: |
                 docker login --username aniket2468 --password ${{secrets.ACCESS_TOKEN}} ghcr.io
-                docker build -t ghcr.io/aniket2468/arithmetic-service:1 --file Dockerfile .
-                docker push ghcr.io/aniket2468/arithmetic-service:1
+                docker build -t ghcr.io/aniket2468/arithmetic-service:$VERSION --file Dockerfile .
+                docker push ghcr.io/aniket2468/arithmetic-service:$VERSION
             - name: Publish the image to azure container registry
               run: |
-                docker login --username practicum16aaa --password-stdin ${{secrets.AZURE_CONTAINER_REGISTRY}} practicum16aaa.azurecr.io
-                docker tag ghcr.io/aniket2468/arithmetic-service:1   practicum16aaa.azurecr.io/arithmetic-service:1
-                docker push practicum16aaa.azurecr.io/arithmetic-service:1
+                docker login --username $CONTAINER_REGISTRY_UN --password $CONTAINER_REGISTRY_PW $CONTAINER_REGISTRY
+                docker tag ghcr.io/aniket2468/arithmetic-service:$VERSION   $CONTAINER_REGISTRY/arithmetic-service:$VERSION
+                docker push $CONTAINER_REGISTRY/arithmetic-service:$VERSION
+            - uses: tale/kubectl-action@v1
+              with:
+                base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+            
+            - name: Deploy
+              run: ./deploy.sh
+
+
+

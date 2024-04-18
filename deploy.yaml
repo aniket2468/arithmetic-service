@@ -14,7 +14,7 @@ spec:
     spec:
       containers: 
       - name: arithmetic-service
-        image: practicum15aa.azurecr.io/arithmetic-service:1
+        image: $CONTAINER_REGISTRY/arithmetic-service:$VERSION
         imagePullPolicy: IfNotPresent
         env:
         - name: PORT
